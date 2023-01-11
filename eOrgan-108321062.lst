@@ -1,0 +1,1312 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ANSI-C Compiler
+                                      3 ; Version 4.2.0 #13081 (MINGW64)
+                                      4 ;--------------------------------------------------------
+                                      5 	.module eOrgan_108321062
+                                      6 	.optsdcc -mmcs51 --model-small
+                                      7 	
+                                      8 ;--------------------------------------------------------
+                                      9 ; Public variables in this module
+                                     10 ;--------------------------------------------------------
+                                     11 	.globl _tempo
+                                     12 	.globl _main
+                                     13 	.globl _timer_1
+                                     14 	.globl _timer_0
+                                     15 	.globl _LED_Display
+                                     16 	.globl _Keypad
+                                     17 	.globl _CY
+                                     18 	.globl _AC
+                                     19 	.globl _F0
+                                     20 	.globl _RS1
+                                     21 	.globl _RS0
+                                     22 	.globl _OV
+                                     23 	.globl _F1
+                                     24 	.globl _P
+                                     25 	.globl _PS
+                                     26 	.globl _PT1
+                                     27 	.globl _PX1
+                                     28 	.globl _PT0
+                                     29 	.globl _PX0
+                                     30 	.globl _RD
+                                     31 	.globl _WR
+                                     32 	.globl _T1
+                                     33 	.globl _T0
+                                     34 	.globl _INT1
+                                     35 	.globl _INT0
+                                     36 	.globl _TXD
+                                     37 	.globl _RXD
+                                     38 	.globl _P3_7
+                                     39 	.globl _P3_6
+                                     40 	.globl _P3_5
+                                     41 	.globl _P3_4
+                                     42 	.globl _P3_3
+                                     43 	.globl _P3_2
+                                     44 	.globl _P3_1
+                                     45 	.globl _P3_0
+                                     46 	.globl _EA
+                                     47 	.globl _ES
+                                     48 	.globl _ET1
+                                     49 	.globl _EX1
+                                     50 	.globl _ET0
+                                     51 	.globl _EX0
+                                     52 	.globl _P2_7
+                                     53 	.globl _P2_6
+                                     54 	.globl _P2_5
+                                     55 	.globl _P2_4
+                                     56 	.globl _P2_3
+                                     57 	.globl _P2_2
+                                     58 	.globl _P2_1
+                                     59 	.globl _P2_0
+                                     60 	.globl _SM0
+                                     61 	.globl _SM1
+                                     62 	.globl _SM2
+                                     63 	.globl _REN
+                                     64 	.globl _TB8
+                                     65 	.globl _RB8
+                                     66 	.globl _TI
+                                     67 	.globl _RI
+                                     68 	.globl _P1_7
+                                     69 	.globl _P1_6
+                                     70 	.globl _P1_5
+                                     71 	.globl _P1_4
+                                     72 	.globl _P1_3
+                                     73 	.globl _P1_2
+                                     74 	.globl _P1_1
+                                     75 	.globl _P1_0
+                                     76 	.globl _TF1
+                                     77 	.globl _TR1
+                                     78 	.globl _TF0
+                                     79 	.globl _TR0
+                                     80 	.globl _IE1
+                                     81 	.globl _IT1
+                                     82 	.globl _IE0
+                                     83 	.globl _IT0
+                                     84 	.globl _P0_7
+                                     85 	.globl _P0_6
+                                     86 	.globl _P0_5
+                                     87 	.globl _P0_4
+                                     88 	.globl _P0_3
+                                     89 	.globl _P0_2
+                                     90 	.globl _P0_1
+                                     91 	.globl _P0_0
+                                     92 	.globl _B
+                                     93 	.globl _ACC
+                                     94 	.globl _PSW
+                                     95 	.globl _IP
+                                     96 	.globl _P3
+                                     97 	.globl _IE
+                                     98 	.globl _P2
+                                     99 	.globl _SBUF
+                                    100 	.globl _SCON
+                                    101 	.globl _P1
+                                    102 	.globl _TH1
+                                    103 	.globl _TH0
+                                    104 	.globl _TL1
+                                    105 	.globl _TL0
+                                    106 	.globl _TMOD
+                                    107 	.globl _TCON
+                                    108 	.globl _PCON
+                                    109 	.globl _DPH
+                                    110 	.globl _DPL
+                                    111 	.globl _SP
+                                    112 	.globl _P0
+                                    113 	.globl _record_start
+                                    114 	.globl _record_key
+                                    115 	.globl _record_tone
+                                    116 	.globl _tone
+                                    117 	.globl _sharp_flat
+                                    118 	.globl _tempo_counter
+                                    119 	.globl _time_counter
+                                    120 	.globl _record_counter
+                                    121 	.globl _key
+                                    122 	.globl _time
+                                    123 	.globl _okey
+                                    124 	.globl _fix
+                                    125 	.globl _press_value
+                                    126 	.globl _num
+                                    127 	.globl _display
+                                    128 	.globl _initial
+                                    129 ;--------------------------------------------------------
+                                    130 ; special function registers
+                                    131 ;--------------------------------------------------------
+                                    132 	.area RSEG    (ABS,DATA)
+      000000                        133 	.org 0x0000
+                           000080   134 _P0	=	0x0080
+                           000081   135 _SP	=	0x0081
+                           000082   136 _DPL	=	0x0082
+                           000083   137 _DPH	=	0x0083
+                           000087   138 _PCON	=	0x0087
+                           000088   139 _TCON	=	0x0088
+                           000089   140 _TMOD	=	0x0089
+                           00008A   141 _TL0	=	0x008a
+                           00008B   142 _TL1	=	0x008b
+                           00008C   143 _TH0	=	0x008c
+                           00008D   144 _TH1	=	0x008d
+                           000090   145 _P1	=	0x0090
+                           000098   146 _SCON	=	0x0098
+                           000099   147 _SBUF	=	0x0099
+                           0000A0   148 _P2	=	0x00a0
+                           0000A8   149 _IE	=	0x00a8
+                           0000B0   150 _P3	=	0x00b0
+                           0000B8   151 _IP	=	0x00b8
+                           0000D0   152 _PSW	=	0x00d0
+                           0000E0   153 _ACC	=	0x00e0
+                           0000F0   154 _B	=	0x00f0
+                                    155 ;--------------------------------------------------------
+                                    156 ; special function bits
+                                    157 ;--------------------------------------------------------
+                                    158 	.area RSEG    (ABS,DATA)
+      000000                        159 	.org 0x0000
+                           000080   160 _P0_0	=	0x0080
+                           000081   161 _P0_1	=	0x0081
+                           000082   162 _P0_2	=	0x0082
+                           000083   163 _P0_3	=	0x0083
+                           000084   164 _P0_4	=	0x0084
+                           000085   165 _P0_5	=	0x0085
+                           000086   166 _P0_6	=	0x0086
+                           000087   167 _P0_7	=	0x0087
+                           000088   168 _IT0	=	0x0088
+                           000089   169 _IE0	=	0x0089
+                           00008A   170 _IT1	=	0x008a
+                           00008B   171 _IE1	=	0x008b
+                           00008C   172 _TR0	=	0x008c
+                           00008D   173 _TF0	=	0x008d
+                           00008E   174 _TR1	=	0x008e
+                           00008F   175 _TF1	=	0x008f
+                           000090   176 _P1_0	=	0x0090
+                           000091   177 _P1_1	=	0x0091
+                           000092   178 _P1_2	=	0x0092
+                           000093   179 _P1_3	=	0x0093
+                           000094   180 _P1_4	=	0x0094
+                           000095   181 _P1_5	=	0x0095
+                           000096   182 _P1_6	=	0x0096
+                           000097   183 _P1_7	=	0x0097
+                           000098   184 _RI	=	0x0098
+                           000099   185 _TI	=	0x0099
+                           00009A   186 _RB8	=	0x009a
+                           00009B   187 _TB8	=	0x009b
+                           00009C   188 _REN	=	0x009c
+                           00009D   189 _SM2	=	0x009d
+                           00009E   190 _SM1	=	0x009e
+                           00009F   191 _SM0	=	0x009f
+                           0000A0   192 _P2_0	=	0x00a0
+                           0000A1   193 _P2_1	=	0x00a1
+                           0000A2   194 _P2_2	=	0x00a2
+                           0000A3   195 _P2_3	=	0x00a3
+                           0000A4   196 _P2_4	=	0x00a4
+                           0000A5   197 _P2_5	=	0x00a5
+                           0000A6   198 _P2_6	=	0x00a6
+                           0000A7   199 _P2_7	=	0x00a7
+                           0000A8   200 _EX0	=	0x00a8
+                           0000A9   201 _ET0	=	0x00a9
+                           0000AA   202 _EX1	=	0x00aa
+                           0000AB   203 _ET1	=	0x00ab
+                           0000AC   204 _ES	=	0x00ac
+                           0000AF   205 _EA	=	0x00af
+                           0000B0   206 _P3_0	=	0x00b0
+                           0000B1   207 _P3_1	=	0x00b1
+                           0000B2   208 _P3_2	=	0x00b2
+                           0000B3   209 _P3_3	=	0x00b3
+                           0000B4   210 _P3_4	=	0x00b4
+                           0000B5   211 _P3_5	=	0x00b5
+                           0000B6   212 _P3_6	=	0x00b6
+                           0000B7   213 _P3_7	=	0x00b7
+                           0000B0   214 _RXD	=	0x00b0
+                           0000B1   215 _TXD	=	0x00b1
+                           0000B2   216 _INT0	=	0x00b2
+                           0000B3   217 _INT1	=	0x00b3
+                           0000B4   218 _T0	=	0x00b4
+                           0000B5   219 _T1	=	0x00b5
+                           0000B6   220 _WR	=	0x00b6
+                           0000B7   221 _RD	=	0x00b7
+                           0000B8   222 _PX0	=	0x00b8
+                           0000B9   223 _PT0	=	0x00b9
+                           0000BA   224 _PX1	=	0x00ba
+                           0000BB   225 _PT1	=	0x00bb
+                           0000BC   226 _PS	=	0x00bc
+                           0000D0   227 _P	=	0x00d0
+                           0000D1   228 _F1	=	0x00d1
+                           0000D2   229 _OV	=	0x00d2
+                           0000D3   230 _RS0	=	0x00d3
+                           0000D4   231 _RS1	=	0x00d4
+                           0000D5   232 _F0	=	0x00d5
+                           0000D6   233 _AC	=	0x00d6
+                           0000D7   234 _CY	=	0x00d7
+                                    235 ;--------------------------------------------------------
+                                    236 ; overlayable register banks
+                                    237 ;--------------------------------------------------------
+                                    238 	.area REG_BANK_0	(REL,OVR,DATA)
+      000000                        239 	.ds 8
+                                    240 	.area REG_BANK_1	(REL,OVR,DATA)
+      000000                        241 	.ds 8
+                                    242 	.area REG_BANK_2	(REL,OVR,DATA)
+      000000                        243 	.ds 8
+                                    244 ;--------------------------------------------------------
+                                    245 ; overlayable bit register bank
+                                    246 ;--------------------------------------------------------
+                                    247 	.area BIT_BANK	(REL,OVR,DATA)
+      000000                        248 bits:
+      000000                        249 	.ds 1
+                           008000   250 	b0 = bits[0]
+                           008100   251 	b1 = bits[1]
+                           008200   252 	b2 = bits[2]
+                           008300   253 	b3 = bits[3]
+                           008400   254 	b4 = bits[4]
+                           008500   255 	b5 = bits[5]
+                           008600   256 	b6 = bits[6]
+                           008700   257 	b7 = bits[7]
+                                    258 ;--------------------------------------------------------
+                                    259 ; internal ram data
+                                    260 ;--------------------------------------------------------
+                                    261 	.area DSEG    (DATA)
+      000000                        262 _initial::
+      000000                        263 	.ds 2
+      000002                        264 _display::
+      000002                        265 	.ds 1
+      000003                        266 _num::
+      000003                        267 	.ds 1
+      000004                        268 _press_value::
+      000004                        269 	.ds 1
+      000005                        270 _fix::
+      000005                        271 	.ds 1
+      000006                        272 _okey::
+      000006                        273 	.ds 1
+      000007                        274 _time::
+      000007                        275 	.ds 1
+      000008                        276 _key::
+      000008                        277 	.ds 1
+      000009                        278 _record_counter::
+      000009                        279 	.ds 1
+      00000A                        280 _time_counter::
+      00000A                        281 	.ds 1
+      00000B                        282 _tempo_counter::
+      00000B                        283 	.ds 1
+      00000C                        284 _sharp_flat::
+      00000C                        285 	.ds 1
+      00000D                        286 _tone::
+      00000D                        287 	.ds 16
+      00001D                        288 _record_tone::
+      00001D                        289 	.ds 30
+      00003B                        290 _record_key::
+      00003B                        291 	.ds 30
+                                    292 ;--------------------------------------------------------
+                                    293 ; overlayable items in internal ram
+                                    294 ;--------------------------------------------------------
+                                    295 ;--------------------------------------------------------
+                                    296 ; Stack segment in internal ram
+                                    297 ;--------------------------------------------------------
+                                    298 	.area	SSEG
+      000000                        299 __start__stack:
+      000000                        300 	.ds	1
+                                    301 
+                                    302 ;--------------------------------------------------------
+                                    303 ; indirectly addressable internal ram data
+                                    304 ;--------------------------------------------------------
+                                    305 	.area ISEG    (DATA)
+                                    306 ;--------------------------------------------------------
+                                    307 ; absolute internal ram data
+                                    308 ;--------------------------------------------------------
+                                    309 	.area IABS    (ABS,DATA)
+                                    310 	.area IABS    (ABS,DATA)
+                                    311 ;--------------------------------------------------------
+                                    312 ; bit data
+                                    313 ;--------------------------------------------------------
+                                    314 	.area BSEG    (BIT)
+      000000                        315 _record_start::
+      000000                        316 	.ds 1
+                                    317 ;--------------------------------------------------------
+                                    318 ; paged external ram data
+                                    319 ;--------------------------------------------------------
+                                    320 	.area PSEG    (PAG,XDATA)
+                                    321 ;--------------------------------------------------------
+                                    322 ; external ram data
+                                    323 ;--------------------------------------------------------
+                                    324 	.area XSEG    (XDATA)
+                                    325 ;--------------------------------------------------------
+                                    326 ; absolute external ram data
+                                    327 ;--------------------------------------------------------
+                                    328 	.area XABS    (ABS,XDATA)
+                                    329 ;--------------------------------------------------------
+                                    330 ; external initialized ram data
+                                    331 ;--------------------------------------------------------
+                                    332 	.area XISEG   (XDATA)
+                                    333 	.area HOME    (CODE)
+                                    334 	.area GSINIT0 (CODE)
+                                    335 	.area GSINIT1 (CODE)
+                                    336 	.area GSINIT2 (CODE)
+                                    337 	.area GSINIT3 (CODE)
+                                    338 	.area GSINIT4 (CODE)
+                                    339 	.area GSINIT5 (CODE)
+                                    340 	.area GSINIT  (CODE)
+                                    341 	.area GSFINAL (CODE)
+                                    342 	.area CSEG    (CODE)
+                                    343 ;--------------------------------------------------------
+                                    344 ; interrupt vector
+                                    345 ;--------------------------------------------------------
+                                    346 	.area HOME    (CODE)
+      000000                        347 __interrupt_vect:
+      000000 02r00r00         [24]  348 	ljmp	__sdcc_gsinit_startup
+      000003 32               [24]  349 	reti
+      000004                        350 	.ds	7
+      00000B 02r00r00         [24]  351 	ljmp	_timer_0
+      00000E                        352 	.ds	5
+      000013 32               [24]  353 	reti
+      000014                        354 	.ds	7
+      00001B 02r03r6D         [24]  355 	ljmp	_timer_1
+                                    356 ;--------------------------------------------------------
+                                    357 ; global & static initialisations
+                                    358 ;--------------------------------------------------------
+                                    359 	.area HOME    (CODE)
+                                    360 	.area GSINIT  (CODE)
+                                    361 	.area GSFINAL (CODE)
+                                    362 	.area GSINIT  (CODE)
+                                    363 	.globl __sdcc_gsinit_startup
+                                    364 	.globl __sdcc_program_startup
+                                    365 	.globl __start__stack
+                                    366 	.globl __mcs51_genXINIT
+                                    367 	.globl __mcs51_genXRAMCLEAR
+                                    368 	.globl __mcs51_genRAMCLEAR
+                                    369 ;	eOrgan-108321062.c:9: unsigned char okey = 0xff, time = 0, key = 2; // okey:debounce, time:timer_1 interrupt, key = 升降八度, record_start = 允許記錄相關資訊
+      000000 75*06 FF         [24]  370 	mov	_okey,#0xff
+                                    371 ;	eOrgan-108321062.c:9: __bit record_start = 0; 
+      000003 75*07 00         [24]  372 	mov	_time,#0x00
+                                    373 ;	eOrgan-108321062.c:9: unsigned char okey = 0xff, time = 0, key = 2; // okey:debounce, time:timer_1 interrupt, key = 升降八度, record_start = 允許記錄相關資訊
+      000006 75*08 02         [24]  374 	mov	_key,#0x02
+                                    375 ;	eOrgan-108321062.c:11: unsigned char record_counter = 0, time_counter = 0, tempo_counter = 5; // record_counter:數要存在record陣列的位置, time_counter:與fix相呼配合, tempo_counter:數讀的tempo陣列的位置
+      000009 75*09 00         [24]  376 	mov	_record_counter,#0x00
+                                    377 ;	eOrgan-108321062.c:11: unsigned char sharp_flat = 0;// shap_flat:0-> none, 1 -> #, 2 -> b 
+      00000C 75*0A 00         [24]  378 	mov	_time_counter,#0x00
+                                    379 ;	eOrgan-108321062.c:11: unsigned char record_counter = 0, time_counter = 0, tempo_counter = 5; // record_counter:數要存在record陣列的位置, time_counter:與fix相呼配合, tempo_counter:數讀的tempo陣列的位置
+      00000F 75*0B 05         [24]  380 	mov	_tempo_counter,#0x05
+                                    381 ;	eOrgan-108321062.c:12: unsigned char sharp_flat = 0;// shap_flat:0-> none, 1 -> #, 2 -> b 
+      000012 75*0C 00         [24]  382 	mov	_sharp_flat,#0x00
+                                    383 ;	eOrgan-108321062.c:15: unsigned short tone[] =  
+      000015 E4               [12]  384 	clr	a
+      000016 F5*0D            [12]  385 	mov	(_tone + 0),a
+      000018 F5*0E            [12]  386 	mov	(_tone + 1),a
+      00001A 75*0F 06         [24]  387 	mov	((_tone + 0x0002) + 0),#0x06
+      00001D 75*10 01         [24]  388 	mov	((_tone + 0x0002) + 1),#0x01
+      000020 75*11 26         [24]  389 	mov	((_tone + 0x0004) + 0),#0x26
+      000023 75*12 01         [24]  390 	mov	((_tone + 0x0004) + 1),#0x01
+      000026 75*13 4A         [24]  391 	mov	((_tone + 0x0006) + 0),#0x4a
+      000029 75*14 01         [24]  392 	mov	((_tone + 0x0006) + 1),#0x01
+      00002C 75*15 5D         [24]  393 	mov	((_tone + 0x0008) + 0),#0x5d
+      00002F 75*16 01         [24]  394 	mov	((_tone + 0x0008) + 1),#0x01
+      000032 75*17 88         [24]  395 	mov	((_tone + 0x000a) + 0),#0x88
+      000035 75*18 01         [24]  396 	mov	((_tone + 0x000a) + 1),#0x01
+      000038 75*19 B8         [24]  397 	mov	((_tone + 0x000c) + 0),#0xb8
+      00003B 75*1A 01         [24]  398 	mov	((_tone + 0x000c) + 1),#0x01
+      00003E 75*1B EE         [24]  399 	mov	((_tone + 0x000e) + 0),#0xee
+      000041 75*1C 01         [24]  400 	mov	((_tone + 0x000e) + 1),#0x01
+                                    401 ;	eOrgan-108321062.c:32: unsigned char record_tone[]={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+                                    402 ;	1-genFromRTrack replaced	mov	_record_tone,#0x00
+      000044 F5*1D            [12]  403 	mov	_record_tone,a
+                                    404 ;	1-genFromRTrack replaced	mov	(_record_tone + 0x0001),#0x00
+      000046 F5*1E            [12]  405 	mov	(_record_tone + 0x0001),a
+                                    406 ;	1-genFromRTrack replaced	mov	(_record_tone + 0x0002),#0x00
+      000048 F5*1F            [12]  407 	mov	(_record_tone + 0x0002),a
+                                    408 ;	1-genFromRTrack replaced	mov	(_record_tone + 0x0003),#0x00
+      00004A F5*20            [12]  409 	mov	(_record_tone + 0x0003),a
+                                    410 ;	1-genFromRTrack replaced	mov	(_record_tone + 0x0004),#0x00
+      00004C F5*21            [12]  411 	mov	(_record_tone + 0x0004),a
+                                    412 ;	1-genFromRTrack replaced	mov	(_record_tone + 0x0005),#0x00
+      00004E F5*22            [12]  413 	mov	(_record_tone + 0x0005),a
+                                    414 ;	1-genFromRTrack replaced	mov	(_record_tone + 0x0006),#0x00
+      000050 F5*23            [12]  415 	mov	(_record_tone + 0x0006),a
+                                    416 ;	1-genFromRTrack replaced	mov	(_record_tone + 0x0007),#0x00
+      000052 F5*24            [12]  417 	mov	(_record_tone + 0x0007),a
+                                    418 ;	1-genFromRTrack replaced	mov	(_record_tone + 0x0008),#0x00
+      000054 F5*25            [12]  419 	mov	(_record_tone + 0x0008),a
+                                    420 ;	1-genFromRTrack replaced	mov	(_record_tone + 0x0009),#0x00
+      000056 F5*26            [12]  421 	mov	(_record_tone + 0x0009),a
+                                    422 ;	1-genFromRTrack replaced	mov	(_record_tone + 0x000a),#0x00
+      000058 F5*27            [12]  423 	mov	(_record_tone + 0x000a),a
+                                    424 ;	1-genFromRTrack replaced	mov	(_record_tone + 0x000b),#0x00
+      00005A F5*28            [12]  425 	mov	(_record_tone + 0x000b),a
+                                    426 ;	1-genFromRTrack replaced	mov	(_record_tone + 0x000c),#0x00
+      00005C F5*29            [12]  427 	mov	(_record_tone + 0x000c),a
+                                    428 ;	1-genFromRTrack replaced	mov	(_record_tone + 0x000d),#0x00
+      00005E F5*2A            [12]  429 	mov	(_record_tone + 0x000d),a
+                                    430 ;	1-genFromRTrack replaced	mov	(_record_tone + 0x000e),#0x00
+      000060 F5*2B            [12]  431 	mov	(_record_tone + 0x000e),a
+                                    432 ;	1-genFromRTrack replaced	mov	(_record_tone + 0x000f),#0x00
+      000062 F5*2C            [12]  433 	mov	(_record_tone + 0x000f),a
+                                    434 ;	1-genFromRTrack replaced	mov	(_record_tone + 0x0010),#0x00
+      000064 F5*2D            [12]  435 	mov	(_record_tone + 0x0010),a
+                                    436 ;	1-genFromRTrack replaced	mov	(_record_tone + 0x0011),#0x00
+      000066 F5*2E            [12]  437 	mov	(_record_tone + 0x0011),a
+                                    438 ;	1-genFromRTrack replaced	mov	(_record_tone + 0x0012),#0x00
+      000068 F5*2F            [12]  439 	mov	(_record_tone + 0x0012),a
+                                    440 ;	1-genFromRTrack replaced	mov	(_record_tone + 0x0013),#0x00
+      00006A F5*30            [12]  441 	mov	(_record_tone + 0x0013),a
+                                    442 ;	1-genFromRTrack replaced	mov	(_record_tone + 0x0014),#0x00
+      00006C F5*31            [12]  443 	mov	(_record_tone + 0x0014),a
+                                    444 ;	1-genFromRTrack replaced	mov	(_record_tone + 0x0015),#0x00
+      00006E F5*32            [12]  445 	mov	(_record_tone + 0x0015),a
+                                    446 ;	1-genFromRTrack replaced	mov	(_record_tone + 0x0016),#0x00
+      000070 F5*33            [12]  447 	mov	(_record_tone + 0x0016),a
+                                    448 ;	1-genFromRTrack replaced	mov	(_record_tone + 0x0017),#0x00
+      000072 F5*34            [12]  449 	mov	(_record_tone + 0x0017),a
+                                    450 ;	1-genFromRTrack replaced	mov	(_record_tone + 0x0018),#0x00
+      000074 F5*35            [12]  451 	mov	(_record_tone + 0x0018),a
+                                    452 ;	1-genFromRTrack replaced	mov	(_record_tone + 0x0019),#0x00
+      000076 F5*36            [12]  453 	mov	(_record_tone + 0x0019),a
+                                    454 ;	1-genFromRTrack replaced	mov	(_record_tone + 0x001a),#0x00
+      000078 F5*37            [12]  455 	mov	(_record_tone + 0x001a),a
+                                    456 ;	1-genFromRTrack replaced	mov	(_record_tone + 0x001b),#0x00
+      00007A F5*38            [12]  457 	mov	(_record_tone + 0x001b),a
+                                    458 ;	1-genFromRTrack replaced	mov	(_record_tone + 0x001c),#0x00
+      00007C F5*39            [12]  459 	mov	(_record_tone + 0x001c),a
+                                    460 ;	1-genFromRTrack replaced	mov	(_record_tone + 0x001d),#0x00
+      00007E F5*3A            [12]  461 	mov	(_record_tone + 0x001d),a
+                                    462 ;	eOrgan-108321062.c:33: unsigned char record_key[]={2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2};
+      000080 75*3B 02         [24]  463 	mov	_record_key,#0x02
+      000083 75*3C 02         [24]  464 	mov	(_record_key + 0x0001),#0x02
+      000086 75*3D 02         [24]  465 	mov	(_record_key + 0x0002),#0x02
+      000089 75*3E 02         [24]  466 	mov	(_record_key + 0x0003),#0x02
+      00008C 75*3F 02         [24]  467 	mov	(_record_key + 0x0004),#0x02
+      00008F 75*40 02         [24]  468 	mov	(_record_key + 0x0005),#0x02
+      000092 75*41 02         [24]  469 	mov	(_record_key + 0x0006),#0x02
+      000095 75*42 02         [24]  470 	mov	(_record_key + 0x0007),#0x02
+      000098 75*43 02         [24]  471 	mov	(_record_key + 0x0008),#0x02
+      00009B 75*44 02         [24]  472 	mov	(_record_key + 0x0009),#0x02
+      00009E 75*45 02         [24]  473 	mov	(_record_key + 0x000a),#0x02
+      0000A1 75*46 02         [24]  474 	mov	(_record_key + 0x000b),#0x02
+      0000A4 75*47 02         [24]  475 	mov	(_record_key + 0x000c),#0x02
+      0000A7 75*48 02         [24]  476 	mov	(_record_key + 0x000d),#0x02
+      0000AA 75*49 02         [24]  477 	mov	(_record_key + 0x000e),#0x02
+      0000AD 75*4A 02         [24]  478 	mov	(_record_key + 0x000f),#0x02
+      0000B0 75*4B 02         [24]  479 	mov	(_record_key + 0x0010),#0x02
+      0000B3 75*4C 02         [24]  480 	mov	(_record_key + 0x0011),#0x02
+      0000B6 75*4D 02         [24]  481 	mov	(_record_key + 0x0012),#0x02
+      0000B9 75*4E 02         [24]  482 	mov	(_record_key + 0x0013),#0x02
+      0000BC 75*4F 02         [24]  483 	mov	(_record_key + 0x0014),#0x02
+      0000BF 75*50 02         [24]  484 	mov	(_record_key + 0x0015),#0x02
+      0000C2 75*51 02         [24]  485 	mov	(_record_key + 0x0016),#0x02
+      0000C5 75*52 02         [24]  486 	mov	(_record_key + 0x0017),#0x02
+      0000C8 75*53 02         [24]  487 	mov	(_record_key + 0x0018),#0x02
+      0000CB 75*54 02         [24]  488 	mov	(_record_key + 0x0019),#0x02
+      0000CE 75*55 02         [24]  489 	mov	(_record_key + 0x001a),#0x02
+      0000D1 75*56 02         [24]  490 	mov	(_record_key + 0x001b),#0x02
+      0000D4 75*57 02         [24]  491 	mov	(_record_key + 0x001c),#0x02
+      0000D7 75*58 02         [24]  492 	mov	(_record_key + 0x001d),#0x02
+                                    493 ;	eOrgan-108321062.c:10: __bit record_start = 0; 
+                                    494 ;	assignBit
+      0000DA C2*00            [12]  495 	clr	_record_start
+                                    496 	.area GSFINAL (CODE)
+      000000 02r00r1E         [24]  497 	ljmp	__sdcc_program_startup
+                                    498 ;--------------------------------------------------------
+                                    499 ; Home
+                                    500 ;--------------------------------------------------------
+                                    501 	.area HOME    (CODE)
+                                    502 	.area HOME    (CODE)
+      00001E                        503 __sdcc_program_startup:
+      00001E 02r03rBC         [24]  504 	ljmp	_main
+                                    505 ;	return from main will return to caller
+                                    506 ;--------------------------------------------------------
+                                    507 ; code
+                                    508 ;--------------------------------------------------------
+                                    509 	.area CSEG    (CODE)
+                                    510 ;------------------------------------------------------------
+                                    511 ;Allocation info for local variables in function 'timer_0'
+                                    512 ;------------------------------------------------------------
+                                    513 ;	eOrgan-108321062.c:52: void timer_0(void) __interrupt (1) __using (1)
+                                    514 ;	-----------------------------------------
+                                    515 ;	 function timer_0
+                                    516 ;	-----------------------------------------
+      000000                        517 _timer_0:
+                           00000F   518 	ar7 = 0x0f
+                           00000E   519 	ar6 = 0x0e
+                           00000D   520 	ar5 = 0x0d
+                           00000C   521 	ar4 = 0x0c
+                           00000B   522 	ar3 = 0x0b
+                           00000A   523 	ar2 = 0x0a
+                           000009   524 	ar1 = 0x09
+                           000008   525 	ar0 = 0x08
+      000000 C0*00            [24]  526 	push	bits
+      000002 C0 E0            [24]  527 	push	acc
+      000004 C0 F0            [24]  528 	push	b
+      000006 C0 82            [24]  529 	push	dpl
+      000008 C0 83            [24]  530 	push	dph
+      00000A C0 07            [24]  531 	push	(0+7)
+      00000C C0 06            [24]  532 	push	(0+6)
+      00000E C0 05            [24]  533 	push	(0+5)
+      000010 C0 04            [24]  534 	push	(0+4)
+      000012 C0 03            [24]  535 	push	(0+3)
+      000014 C0 02            [24]  536 	push	(0+2)
+      000016 C0 01            [24]  537 	push	(0+1)
+      000018 C0 00            [24]  538 	push	(0+0)
+      00001A C0 D0            [24]  539 	push	psw
+      00001C 75 D0 08         [24]  540 	mov	psw,#0x08
+                                    541 ;	eOrgan-108321062.c:54: if (P1 != 0xf0){ // 1~7 = C~A音階
+      00001F 74 F0            [12]  542 	mov	a,#0xf0
+      000021 B5 90 03         [24]  543 	cjne	a,_P1,00186$
+      000024 02r03r50         [24]  544 	ljmp	00132$
+      000027                        545 00186$:
+                                    546 ;	eOrgan-108321062.c:55: if (press_value > 0 && press_value < 8) {
+      000027 E5*04            [12]  547 	mov	a,_press_value
+      000029 70 03            [24]  548 	jnz	00187$
+      00002B 02r02rEE         [24]  549 	ljmp	00127$
+      00002E                        550 00187$:
+      00002E 74 F8            [12]  551 	mov	a,#0x100 - 0x08
+      000030 25*04            [12]  552 	add	a,_press_value
+      000032 50 03            [24]  553 	jnc	00188$
+      000034 02r02rEE         [24]  554 	ljmp	00127$
+      000037                        555 00188$:
+                                    556 ;	eOrgan-108321062.c:56: P0 = ~P0;
+      000037 E5 80            [12]  557 	mov	a,_P0
+      000039 F4               [12]  558 	cpl	a
+      00003A F5 80            [12]  559 	mov	_P0,a
+                                    560 ;	eOrgan-108321062.c:57: if(sharp_flat == 0){ // 無升降單音
+      00003C E5*0C            [12]  561 	mov	a,_sharp_flat
+      00003E 70 4C            [24]  562 	jnz	00119$
+                                    563 ;	eOrgan-108321062.c:58: initial = 65536 -(1000000 / (tone[press_value] * key));
+      000040 E5*04            [12]  564 	mov	a,_press_value
+      000042 25*04            [12]  565 	add	a,_press_value
+      000044 24r0D            [12]  566 	add	a,#_tone
+      000046 F9               [12]  567 	mov	r1,a
+      000047 87 82            [24]  568 	mov	dpl,@r1
+      000049 09               [12]  569 	inc	r1
+      00004A 87 83            [24]  570 	mov	dph,@r1
+      00004C 85*08*00         [24]  571 	mov	__mulint_PARM_2,_key
+      00004F 75*01 00         [24]  572 	mov	(__mulint_PARM_2 + 1),#0x00
+      000052 75 D0 00         [24]  573 	mov	psw,#0x00
+      000055 12r00r00         [24]  574 	lcall	__mulint
+      000058 75 D0 08         [24]  575 	mov	psw,#0x08
+      00005B AE 82            [24]  576 	mov	r6,dpl
+      00005D AF 83            [24]  577 	mov	r7,dph
+      00005F 8E*00            [24]  578 	mov	__divslong_PARM_2,r6
+      000061 8F*01            [24]  579 	mov	(__divslong_PARM_2 + 1),r7
+      000063 75*02 00         [24]  580 	mov	(__divslong_PARM_2 + 2),#0x00
+      000066 75*03 00         [24]  581 	mov	(__divslong_PARM_2 + 3),#0x00
+      000069 90 42 40         [24]  582 	mov	dptr,#0x4240
+      00006C 75 F0 0F         [24]  583 	mov	b,#0x0f
+      00006F E4               [12]  584 	clr	a
+      000070 75 D0 00         [24]  585 	mov	psw,#0x00
+      000073 12r00r00         [24]  586 	lcall	__divslong
+      000076 75 D0 08         [24]  587 	mov	psw,#0x08
+      000079 AC 82            [24]  588 	mov	r4,dpl
+      00007B AD 83            [24]  589 	mov	r5,dph
+      00007D AE F0            [24]  590 	mov	r6,b
+      00007F FF               [12]  591 	mov	r7,a
+      000080 C3               [12]  592 	clr	c
+      000081 E4               [12]  593 	clr	a
+      000082 9C               [12]  594 	subb	a,r4
+      000083 F5*00            [12]  595 	mov	_initial,a
+      000085 E4               [12]  596 	clr	a
+      000086 9D               [12]  597 	subb	a,r5
+      000087 F5*01            [12]  598 	mov	(_initial + 1),a
+      000089 02r02rCB         [24]  599 	ljmp	00120$
+      00008C                        600 00119$:
+                                    601 ;	eOrgan-108321062.c:60: else if(sharp_flat == 1){ // 升單音
+      00008C 74 01            [12]  602 	mov	a,#0x01
+      00008E B5*0C 02         [24]  603 	cjne	a,_sharp_flat,00190$
+      000091 80 03            [24]  604 	sjmp	00191$
+      000093                        605 00190$:
+      000093 02r01rAC         [24]  606 	ljmp	00116$
+      000096                        607 00191$:
+                                    608 ;	eOrgan-108321062.c:61: if(press_value == 3){ // E# = F
+      000096 74 03            [12]  609 	mov	a,#0x03
+      000098 B5*04 4D         [24]  610 	cjne	a,_press_value,00105$
+                                    611 ;	eOrgan-108321062.c:62: initial = 65536 -(1000000 / (tone[press_value + 1] * key));
+      00009B AF*04            [24]  612 	mov	r7,_press_value
+      00009D 0F               [12]  613 	inc	r7
+      00009E EF               [12]  614 	mov	a,r7
+      00009F 2F               [12]  615 	add	a,r7
+      0000A0 24r0D            [12]  616 	add	a,#_tone
+      0000A2 F9               [12]  617 	mov	r1,a
+      0000A3 87 82            [24]  618 	mov	dpl,@r1
+      0000A5 09               [12]  619 	inc	r1
+      0000A6 87 83            [24]  620 	mov	dph,@r1
+      0000A8 85*08*00         [24]  621 	mov	__mulint_PARM_2,_key
+      0000AB 75*01 00         [24]  622 	mov	(__mulint_PARM_2 + 1),#0x00
+      0000AE 75 D0 00         [24]  623 	mov	psw,#0x00
+      0000B1 12r00r00         [24]  624 	lcall	__mulint
+      0000B4 75 D0 08         [24]  625 	mov	psw,#0x08
+      0000B7 AE 82            [24]  626 	mov	r6,dpl
+      0000B9 AF 83            [24]  627 	mov	r7,dph
+      0000BB 8E*00            [24]  628 	mov	__divslong_PARM_2,r6
+      0000BD 8F*01            [24]  629 	mov	(__divslong_PARM_2 + 1),r7
+      0000BF 75*02 00         [24]  630 	mov	(__divslong_PARM_2 + 2),#0x00
+      0000C2 75*03 00         [24]  631 	mov	(__divslong_PARM_2 + 3),#0x00
+      0000C5 90 42 40         [24]  632 	mov	dptr,#0x4240
+      0000C8 75 F0 0F         [24]  633 	mov	b,#0x0f
+      0000CB E4               [12]  634 	clr	a
+      0000CC 75 D0 00         [24]  635 	mov	psw,#0x00
+      0000CF 12r00r00         [24]  636 	lcall	__divslong
+      0000D2 75 D0 08         [24]  637 	mov	psw,#0x08
+      0000D5 AC 82            [24]  638 	mov	r4,dpl
+      0000D7 AD 83            [24]  639 	mov	r5,dph
+      0000D9 AE F0            [24]  640 	mov	r6,b
+      0000DB FF               [12]  641 	mov	r7,a
+      0000DC C3               [12]  642 	clr	c
+      0000DD E4               [12]  643 	clr	a
+      0000DE 9C               [12]  644 	subb	a,r4
+      0000DF F5*00            [12]  645 	mov	_initial,a
+      0000E1 E4               [12]  646 	clr	a
+      0000E2 9D               [12]  647 	subb	a,r5
+      0000E3 F5*01            [12]  648 	mov	(_initial + 1),a
+      0000E5 02r02rCB         [24]  649 	ljmp	00120$
+      0000E8                        650 00105$:
+                                    651 ;	eOrgan-108321062.c:64: else if(press_value == 7){ // B# = high C
+      0000E8 74 07            [12]  652 	mov	a,#0x07
+      0000EA B5*04 56         [24]  653 	cjne	a,_press_value,00102$
+                                    654 ;	eOrgan-108321062.c:65: initial = 65536 -(1000000 / (tone[press_value - 6] * 2 * key));
+      0000ED E5*04            [12]  655 	mov	a,_press_value
+      0000EF 24 FA            [12]  656 	add	a,#0xfa
+      0000F1 25 E0            [12]  657 	add	a,acc
+      0000F3 24r0D            [12]  658 	add	a,#_tone
+      0000F5 F9               [12]  659 	mov	r1,a
+      0000F6 87 0E            [24]  660 	mov	ar6,@r1
+      0000F8 09               [12]  661 	inc	r1
+      0000F9 87 0F            [24]  662 	mov	ar7,@r1
+      0000FB EE               [12]  663 	mov	a,r6
+      0000FC 2E               [12]  664 	add	a,r6
+      0000FD F5 82            [12]  665 	mov	dpl,a
+      0000FF EF               [12]  666 	mov	a,r7
+      000100 33               [12]  667 	rlc	a
+      000101 F5 83            [12]  668 	mov	dph,a
+      000103 85*08*00         [24]  669 	mov	__mulint_PARM_2,_key
+      000106 75*01 00         [24]  670 	mov	(__mulint_PARM_2 + 1),#0x00
+      000109 75 D0 00         [24]  671 	mov	psw,#0x00
+      00010C 12r00r00         [24]  672 	lcall	__mulint
+      00010F 75 D0 08         [24]  673 	mov	psw,#0x08
+      000112 AE 82            [24]  674 	mov	r6,dpl
+      000114 AF 83            [24]  675 	mov	r7,dph
+      000116 8E*00            [24]  676 	mov	__divslong_PARM_2,r6
+      000118 8F*01            [24]  677 	mov	(__divslong_PARM_2 + 1),r7
+      00011A 75*02 00         [24]  678 	mov	(__divslong_PARM_2 + 2),#0x00
+      00011D 75*03 00         [24]  679 	mov	(__divslong_PARM_2 + 3),#0x00
+      000120 90 42 40         [24]  680 	mov	dptr,#0x4240
+      000123 75 F0 0F         [24]  681 	mov	b,#0x0f
+      000126 E4               [12]  682 	clr	a
+      000127 75 D0 00         [24]  683 	mov	psw,#0x00
+      00012A 12r00r00         [24]  684 	lcall	__divslong
+      00012D 75 D0 08         [24]  685 	mov	psw,#0x08
+      000130 AC 82            [24]  686 	mov	r4,dpl
+      000132 AD 83            [24]  687 	mov	r5,dph
+      000134 AE F0            [24]  688 	mov	r6,b
+      000136 FF               [12]  689 	mov	r7,a
+      000137 C3               [12]  690 	clr	c
+      000138 E4               [12]  691 	clr	a
+      000139 9C               [12]  692 	subb	a,r4
+      00013A F5*00            [12]  693 	mov	_initial,a
+      00013C E4               [12]  694 	clr	a
+      00013D 9D               [12]  695 	subb	a,r5
+      00013E F5*01            [12]  696 	mov	(_initial + 1),a
+      000140 02r02rCB         [24]  697 	ljmp	00120$
+      000143                        698 00102$:
+                                    699 ;	eOrgan-108321062.c:68: initial = 65536 -(1000000 / ((tone[press_value] + tone[press_value + 1])/2 * key));
+      000143 E5*04            [12]  700 	mov	a,_press_value
+      000145 25*04            [12]  701 	add	a,_press_value
+      000147 24r0D            [12]  702 	add	a,#_tone
+      000149 F9               [12]  703 	mov	r1,a
+      00014A 87 0E            [24]  704 	mov	ar6,@r1
+      00014C 09               [12]  705 	inc	r1
+      00014D 87 0F            [24]  706 	mov	ar7,@r1
+      00014F AD*04            [24]  707 	mov	r5,_press_value
+      000151 0D               [12]  708 	inc	r5
+      000152 ED               [12]  709 	mov	a,r5
+      000153 2D               [12]  710 	add	a,r5
+      000154 24r0D            [12]  711 	add	a,#_tone
+      000156 F9               [12]  712 	mov	r1,a
+      000157 87 0C            [24]  713 	mov	ar4,@r1
+      000159 09               [12]  714 	inc	r1
+      00015A 87 0D            [24]  715 	mov	ar5,@r1
+      00015C EC               [12]  716 	mov	a,r4
+      00015D 2E               [12]  717 	add	a,r6
+      00015E FE               [12]  718 	mov	r6,a
+      00015F ED               [12]  719 	mov	a,r5
+      000160 3F               [12]  720 	addc	a,r7
+      000161 8E 82            [24]  721 	mov	dpl,r6
+      000163 C3               [12]  722 	clr	c
+      000164 13               [12]  723 	rrc	a
+      000165 C5 82            [12]  724 	xch	a,dpl
+      000167 13               [12]  725 	rrc	a
+      000168 C5 82            [12]  726 	xch	a,dpl
+      00016A F5 83            [12]  727 	mov	dph,a
+      00016C 85*08*00         [24]  728 	mov	__mulint_PARM_2,_key
+      00016F 75*01 00         [24]  729 	mov	(__mulint_PARM_2 + 1),#0x00
+      000172 75 D0 00         [24]  730 	mov	psw,#0x00
+      000175 12r00r00         [24]  731 	lcall	__mulint
+      000178 75 D0 08         [24]  732 	mov	psw,#0x08
+      00017B AE 82            [24]  733 	mov	r6,dpl
+      00017D AF 83            [24]  734 	mov	r7,dph
+      00017F 8E*00            [24]  735 	mov	__divslong_PARM_2,r6
+      000181 8F*01            [24]  736 	mov	(__divslong_PARM_2 + 1),r7
+      000183 75*02 00         [24]  737 	mov	(__divslong_PARM_2 + 2),#0x00
+      000186 75*03 00         [24]  738 	mov	(__divslong_PARM_2 + 3),#0x00
+      000189 90 42 40         [24]  739 	mov	dptr,#0x4240
+      00018C 75 F0 0F         [24]  740 	mov	b,#0x0f
+      00018F E4               [12]  741 	clr	a
+      000190 75 D0 00         [24]  742 	mov	psw,#0x00
+      000193 12r00r00         [24]  743 	lcall	__divslong
+      000196 75 D0 08         [24]  744 	mov	psw,#0x08
+      000199 AC 82            [24]  745 	mov	r4,dpl
+      00019B AD 83            [24]  746 	mov	r5,dph
+      00019D AE F0            [24]  747 	mov	r6,b
+      00019F FF               [12]  748 	mov	r7,a
+      0001A0 C3               [12]  749 	clr	c
+      0001A1 E4               [12]  750 	clr	a
+      0001A2 9C               [12]  751 	subb	a,r4
+      0001A3 F5*00            [12]  752 	mov	_initial,a
+      0001A5 E4               [12]  753 	clr	a
+      0001A6 9D               [12]  754 	subb	a,r5
+      0001A7 F5*01            [12]  755 	mov	(_initial + 1),a
+      0001A9 02r02rCB         [24]  756 	ljmp	00120$
+      0001AC                        757 00116$:
+                                    758 ;	eOrgan-108321062.c:71: else if(sharp_flat == 2){ // 降單音
+      0001AC 74 02            [12]  759 	mov	a,#0x02
+      0001AE B5*0C 02         [24]  760 	cjne	a,_sharp_flat,00196$
+      0001B1 80 03            [24]  761 	sjmp	00197$
+      0001B3                        762 00196$:
+      0001B3 02r02rCB         [24]  763 	ljmp	00120$
+      0001B6                        764 00197$:
+                                    765 ;	eOrgan-108321062.c:72: if(press_value == 1){ // Cb = low B 
+      0001B6 74 01            [12]  766 	mov	a,#0x01
+      0001B8 B5*04 59         [24]  767 	cjne	a,_press_value,00111$
+                                    768 ;	eOrgan-108321062.c:73: initial = 65536 -(1000000 / (tone[press_value + 1] / 2 * key));
+      0001BB AF*04            [24]  769 	mov	r7,_press_value
+      0001BD 0F               [12]  770 	inc	r7
+      0001BE EF               [12]  771 	mov	a,r7
+      0001BF 2F               [12]  772 	add	a,r7
+      0001C0 24r0D            [12]  773 	add	a,#_tone
+      0001C2 F9               [12]  774 	mov	r1,a
+      0001C3 87 0E            [24]  775 	mov	ar6,@r1
+      0001C5 09               [12]  776 	inc	r1
+      0001C6 87 0F            [24]  777 	mov	ar7,@r1
+      0001C8 8E 82            [24]  778 	mov	dpl,r6
+      0001CA EF               [12]  779 	mov	a,r7
+      0001CB C3               [12]  780 	clr	c
+      0001CC 13               [12]  781 	rrc	a
+      0001CD C5 82            [12]  782 	xch	a,dpl
+      0001CF 13               [12]  783 	rrc	a
+      0001D0 C5 82            [12]  784 	xch	a,dpl
+      0001D2 F5 83            [12]  785 	mov	dph,a
+      0001D4 85*08*00         [24]  786 	mov	__mulint_PARM_2,_key
+      0001D7 75*01 00         [24]  787 	mov	(__mulint_PARM_2 + 1),#0x00
+      0001DA 75 D0 00         [24]  788 	mov	psw,#0x00
+      0001DD 12r00r00         [24]  789 	lcall	__mulint
+      0001E0 75 D0 08         [24]  790 	mov	psw,#0x08
+      0001E3 AE 82            [24]  791 	mov	r6,dpl
+      0001E5 AF 83            [24]  792 	mov	r7,dph
+      0001E7 8E*00            [24]  793 	mov	__divslong_PARM_2,r6
+      0001E9 8F*01            [24]  794 	mov	(__divslong_PARM_2 + 1),r7
+      0001EB 75*02 00         [24]  795 	mov	(__divslong_PARM_2 + 2),#0x00
+      0001EE 75*03 00         [24]  796 	mov	(__divslong_PARM_2 + 3),#0x00
+      0001F1 90 42 40         [24]  797 	mov	dptr,#0x4240
+      0001F4 75 F0 0F         [24]  798 	mov	b,#0x0f
+      0001F7 E4               [12]  799 	clr	a
+      0001F8 75 D0 00         [24]  800 	mov	psw,#0x00
+      0001FB 12r00r00         [24]  801 	lcall	__divslong
+      0001FE 75 D0 08         [24]  802 	mov	psw,#0x08
+      000201 AC 82            [24]  803 	mov	r4,dpl
+      000203 AD 83            [24]  804 	mov	r5,dph
+      000205 AE F0            [24]  805 	mov	r6,b
+      000207 FF               [12]  806 	mov	r7,a
+      000208 C3               [12]  807 	clr	c
+      000209 E4               [12]  808 	clr	a
+      00020A 9C               [12]  809 	subb	a,r4
+      00020B F5*00            [12]  810 	mov	_initial,a
+      00020D E4               [12]  811 	clr	a
+      00020E 9D               [12]  812 	subb	a,r5
+      00020F F5*01            [12]  813 	mov	(_initial + 1),a
+      000211 02r02rCB         [24]  814 	ljmp	00120$
+      000214                        815 00111$:
+                                    816 ;	eOrgan-108321062.c:75: else if(press_value == 4){ // Fb = E
+      000214 74 04            [12]  817 	mov	a,#0x04
+      000216 B5*04 4C         [24]  818 	cjne	a,_press_value,00108$
+                                    819 ;	eOrgan-108321062.c:76: initial = 65536 -(1000000 / (tone[press_value - 1] * key));
+      000219 AF*04            [24]  820 	mov	r7,_press_value
+      00021B 1F               [12]  821 	dec	r7
+      00021C EF               [12]  822 	mov	a,r7
+      00021D 2F               [12]  823 	add	a,r7
+      00021E 24r0D            [12]  824 	add	a,#_tone
+      000220 F9               [12]  825 	mov	r1,a
+      000221 87 82            [24]  826 	mov	dpl,@r1
+      000223 09               [12]  827 	inc	r1
+      000224 87 83            [24]  828 	mov	dph,@r1
+      000226 85*08*00         [24]  829 	mov	__mulint_PARM_2,_key
+      000229 75*01 00         [24]  830 	mov	(__mulint_PARM_2 + 1),#0x00
+      00022C 75 D0 00         [24]  831 	mov	psw,#0x00
+      00022F 12r00r00         [24]  832 	lcall	__mulint
+      000232 75 D0 08         [24]  833 	mov	psw,#0x08
+      000235 AE 82            [24]  834 	mov	r6,dpl
+      000237 AF 83            [24]  835 	mov	r7,dph
+      000239 8E*00            [24]  836 	mov	__divslong_PARM_2,r6
+      00023B 8F*01            [24]  837 	mov	(__divslong_PARM_2 + 1),r7
+      00023D 75*02 00         [24]  838 	mov	(__divslong_PARM_2 + 2),#0x00
+      000240 75*03 00         [24]  839 	mov	(__divslong_PARM_2 + 3),#0x00
+      000243 90 42 40         [24]  840 	mov	dptr,#0x4240
+      000246 75 F0 0F         [24]  841 	mov	b,#0x0f
+      000249 E4               [12]  842 	clr	a
+      00024A 75 D0 00         [24]  843 	mov	psw,#0x00
+      00024D 12r00r00         [24]  844 	lcall	__divslong
+      000250 75 D0 08         [24]  845 	mov	psw,#0x08
+      000253 AC 82            [24]  846 	mov	r4,dpl
+      000255 AD 83            [24]  847 	mov	r5,dph
+      000257 AE F0            [24]  848 	mov	r6,b
+      000259 FF               [12]  849 	mov	r7,a
+      00025A C3               [12]  850 	clr	c
+      00025B E4               [12]  851 	clr	a
+      00025C 9C               [12]  852 	subb	a,r4
+      00025D F5*00            [12]  853 	mov	_initial,a
+      00025F E4               [12]  854 	clr	a
+      000260 9D               [12]  855 	subb	a,r5
+      000261 F5*01            [12]  856 	mov	(_initial + 1),a
+      000263 80 66            [24]  857 	sjmp	00120$
+      000265                        858 00108$:
+                                    859 ;	eOrgan-108321062.c:78: initial = 65536 -(1000000 / ((tone[press_value-1] + tone[press_value])/2 * key));
+      000265 AF*04            [24]  860 	mov	r7,_press_value
+      000267 1F               [12]  861 	dec	r7
+      000268 EF               [12]  862 	mov	a,r7
+      000269 2F               [12]  863 	add	a,r7
+      00026A 24r0D            [12]  864 	add	a,#_tone
+      00026C F9               [12]  865 	mov	r1,a
+      00026D 87 0E            [24]  866 	mov	ar6,@r1
+      00026F 09               [12]  867 	inc	r1
+      000270 87 0F            [24]  868 	mov	ar7,@r1
+      000272 E5*04            [12]  869 	mov	a,_press_value
+      000274 25*04            [12]  870 	add	a,_press_value
+      000276 24r0D            [12]  871 	add	a,#_tone
+      000278 F9               [12]  872 	mov	r1,a
+      000279 87 0C            [24]  873 	mov	ar4,@r1
+      00027B 09               [12]  874 	inc	r1
+      00027C 87 0D            [24]  875 	mov	ar5,@r1
+      00027E EC               [12]  876 	mov	a,r4
+      00027F 2E               [12]  877 	add	a,r6
+      000280 FE               [12]  878 	mov	r6,a
+      000281 ED               [12]  879 	mov	a,r5
+      000282 3F               [12]  880 	addc	a,r7
+      000283 8E 82            [24]  881 	mov	dpl,r6
+      000285 C3               [12]  882 	clr	c
+      000286 13               [12]  883 	rrc	a
+      000287 C5 82            [12]  884 	xch	a,dpl
+      000289 13               [12]  885 	rrc	a
+      00028A C5 82            [12]  886 	xch	a,dpl
+      00028C F5 83            [12]  887 	mov	dph,a
+      00028E 85*08*00         [24]  888 	mov	__mulint_PARM_2,_key
+      000291 75*01 00         [24]  889 	mov	(__mulint_PARM_2 + 1),#0x00
+      000294 75 D0 00         [24]  890 	mov	psw,#0x00
+      000297 12r00r00         [24]  891 	lcall	__mulint
+      00029A 75 D0 08         [24]  892 	mov	psw,#0x08
+      00029D AE 82            [24]  893 	mov	r6,dpl
+      00029F AF 83            [24]  894 	mov	r7,dph
+      0002A1 8E*00            [24]  895 	mov	__divslong_PARM_2,r6
+      0002A3 8F*01            [24]  896 	mov	(__divslong_PARM_2 + 1),r7
+      0002A5 75*02 00         [24]  897 	mov	(__divslong_PARM_2 + 2),#0x00
+      0002A8 75*03 00         [24]  898 	mov	(__divslong_PARM_2 + 3),#0x00
+      0002AB 90 42 40         [24]  899 	mov	dptr,#0x4240
+      0002AE 75 F0 0F         [24]  900 	mov	b,#0x0f
+      0002B1 E4               [12]  901 	clr	a
+      0002B2 75 D0 00         [24]  902 	mov	psw,#0x00
+      0002B5 12r00r00         [24]  903 	lcall	__divslong
+      0002B8 75 D0 08         [24]  904 	mov	psw,#0x08
+      0002BB AC 82            [24]  905 	mov	r4,dpl
+      0002BD AD 83            [24]  906 	mov	r5,dph
+      0002BF AE F0            [24]  907 	mov	r6,b
+      0002C1 FF               [12]  908 	mov	r7,a
+      0002C2 C3               [12]  909 	clr	c
+      0002C3 E4               [12]  910 	clr	a
+      0002C4 9C               [12]  911 	subb	a,r4
+      0002C5 F5*00            [12]  912 	mov	_initial,a
+      0002C7 E4               [12]  913 	clr	a
+      0002C8 9D               [12]  914 	subb	a,r5
+      0002C9 F5*01            [12]  915 	mov	(_initial + 1),a
+      0002CB                        916 00120$:
+                                    917 ;	eOrgan-108321062.c:81: TL0 = initial & 0xff; 
+      0002CB 85*00 8A         [24]  918 	mov	_TL0,_initial
+                                    919 ;	eOrgan-108321062.c:82: TH0 = initial >> 8; 
+      0002CE 85*01 8C         [24]  920 	mov	_TH0,(_initial + 1)
+                                    921 ;	eOrgan-108321062.c:83: if(record_counter < sizeof(record_tone) / sizeof(unsigned char) && record_start == 1){ // 紀錄談奏相關資訊
+      0002D1 74 E2            [12]  922 	mov	a,#0x100 - 0x1e
+      0002D3 25*09            [12]  923 	add	a,_record_counter
+      0002D5 40 13            [24]  924 	jc	00122$
+      0002D7 30*00 10         [24]  925 	jnb	_record_start,00122$
+                                    926 ;	eOrgan-108321062.c:84: record_tone[record_counter] = press_value;
+      0002DA E5*09            [12]  927 	mov	a,_record_counter
+      0002DC 24r1D            [12]  928 	add	a,#_record_tone
+      0002DE F8               [12]  929 	mov	r0,a
+      0002DF A6*04            [24]  930 	mov	@r0,_press_value
+                                    931 ;	eOrgan-108321062.c:85: record_key[record_counter] = key;
+      0002E1 E5*09            [12]  932 	mov	a,_record_counter
+      0002E3 24r3B            [12]  933 	add	a,#_record_key
+      0002E5 F8               [12]  934 	mov	r0,a
+      0002E6 A6*08            [24]  935 	mov	@r0,_key
+                                    936 ;	eOrgan-108321062.c:87: record_counter ++;
+      0002E8 05*09            [12]  937 	inc	_record_counter
+      0002EA                        938 00122$:
+                                    939 ;	eOrgan-108321062.c:89: record_start = 0;
+                                    940 ;	assignBit
+      0002EA C2*00            [12]  941 	clr	_record_start
+      0002EC 80 62            [24]  942 	sjmp	00132$
+      0002EE                        943 00127$:
+                                    944 ;	eOrgan-108321062.c:91: else if(press_value == 12){ // C 放音樂
+      0002EE 74 0C            [12]  945 	mov	a,#0x0c
+      0002F0 B5*04 5D         [24]  946 	cjne	a,_press_value,00132$
+                                    947 ;	eOrgan-108321062.c:92: P0 = ~P0;
+      0002F3 E5 80            [12]  948 	mov	a,_P0
+      0002F5 F4               [12]  949 	cpl	a
+      0002F6 F5 80            [12]  950 	mov	_P0,a
+                                    951 ;	eOrgan-108321062.c:93: initial = 65536 -(1000000 / (tone[record_tone[time]] * record_key[time]));
+      0002F8 E5*07            [12]  952 	mov	a,_time
+      0002FA 24r1D            [12]  953 	add	a,#_record_tone
+      0002FC F9               [12]  954 	mov	r1,a
+      0002FD E7               [12]  955 	mov	a,@r1
+      0002FE 27               [12]  956 	add	a,@r1
+      0002FF 24r0D            [12]  957 	add	a,#_tone
+      000301 F9               [12]  958 	mov	r1,a
+      000302 87 82            [24]  959 	mov	dpl,@r1
+      000304 09               [12]  960 	inc	r1
+      000305 87 83            [24]  961 	mov	dph,@r1
+      000307 E5*07            [12]  962 	mov	a,_time
+      000309 24r3B            [12]  963 	add	a,#_record_key
+      00030B F9               [12]  964 	mov	r1,a
+      00030C 87 0F            [24]  965 	mov	ar7,@r1
+      00030E 8F*00            [24]  966 	mov	__mulint_PARM_2,r7
+      000310 75*01 00         [24]  967 	mov	(__mulint_PARM_2 + 1),#0x00
+      000313 75 D0 00         [24]  968 	mov	psw,#0x00
+      000316 12r00r00         [24]  969 	lcall	__mulint
+      000319 75 D0 08         [24]  970 	mov	psw,#0x08
+      00031C AE 82            [24]  971 	mov	r6,dpl
+      00031E AF 83            [24]  972 	mov	r7,dph
+      000320 8E*00            [24]  973 	mov	__divslong_PARM_2,r6
+      000322 8F*01            [24]  974 	mov	(__divslong_PARM_2 + 1),r7
+      000324 75*02 00         [24]  975 	mov	(__divslong_PARM_2 + 2),#0x00
+      000327 75*03 00         [24]  976 	mov	(__divslong_PARM_2 + 3),#0x00
+      00032A 90 42 40         [24]  977 	mov	dptr,#0x4240
+      00032D 75 F0 0F         [24]  978 	mov	b,#0x0f
+      000330 E4               [12]  979 	clr	a
+      000331 75 D0 00         [24]  980 	mov	psw,#0x00
+      000334 12r00r00         [24]  981 	lcall	__divslong
+      000337 75 D0 08         [24]  982 	mov	psw,#0x08
+      00033A AC 82            [24]  983 	mov	r4,dpl
+      00033C AD 83            [24]  984 	mov	r5,dph
+      00033E AE F0            [24]  985 	mov	r6,b
+      000340 FF               [12]  986 	mov	r7,a
+      000341 C3               [12]  987 	clr	c
+      000342 E4               [12]  988 	clr	a
+      000343 9C               [12]  989 	subb	a,r4
+      000344 F5*00            [12]  990 	mov	_initial,a
+      000346 E4               [12]  991 	clr	a
+      000347 9D               [12]  992 	subb	a,r5
+      000348 F5*01            [12]  993 	mov	(_initial + 1),a
+                                    994 ;	eOrgan-108321062.c:94: TL0 = initial & 0xff;
+      00034A 85*00 8A         [24]  995 	mov	_TL0,_initial
+                                    996 ;	eOrgan-108321062.c:95: TH0 = initial >> 8;
+      00034D 85*01 8C         [24]  997 	mov	_TH0,(_initial + 1)
+      000350                        998 00132$:
+                                    999 ;	eOrgan-108321062.c:99: }
+      000350 D0 D0            [24] 1000 	pop	psw
+      000352 D0 00            [24] 1001 	pop	(0+0)
+      000354 D0 01            [24] 1002 	pop	(0+1)
+      000356 D0 02            [24] 1003 	pop	(0+2)
+      000358 D0 03            [24] 1004 	pop	(0+3)
+      00035A D0 04            [24] 1005 	pop	(0+4)
+      00035C D0 05            [24] 1006 	pop	(0+5)
+      00035E D0 06            [24] 1007 	pop	(0+6)
+      000360 D0 07            [24] 1008 	pop	(0+7)
+      000362 D0 83            [24] 1009 	pop	dph
+      000364 D0 82            [24] 1010 	pop	dpl
+      000366 D0 F0            [24] 1011 	pop	b
+      000368 D0 E0            [24] 1012 	pop	acc
+      00036A D0*00            [24] 1013 	pop	bits
+      00036C 32               [24] 1014 	reti
+                                   1015 ;------------------------------------------------------------
+                                   1016 ;Allocation info for local variables in function 'timer_1'
+                                   1017 ;------------------------------------------------------------
+                                   1018 ;	eOrgan-108321062.c:101: void timer_1(void) __interrupt (3) __using (2){
+                                   1019 ;	-----------------------------------------
+                                   1020 ;	 function timer_1
+                                   1021 ;	-----------------------------------------
+      00036D                       1022 _timer_1:
+                           000017  1023 	ar7 = 0x17
+                           000016  1024 	ar6 = 0x16
+                           000015  1025 	ar5 = 0x15
+                           000014  1026 	ar4 = 0x14
+                           000013  1027 	ar3 = 0x13
+                           000012  1028 	ar2 = 0x12
+                           000011  1029 	ar1 = 0x11
+                           000010  1030 	ar0 = 0x10
+      00036D C0 E0            [24] 1031 	push	acc
+      00036F C0 D0            [24] 1032 	push	psw
+      000371 75 D0 10         [24] 1033 	mov	psw,#0x10
+                                   1034 ;	eOrgan-108321062.c:102: if (P1 != 0xf0){
+      000374 74 F0            [12] 1035 	mov	a,#0xf0
+      000376 B5 90 02         [24] 1036 	cjne	a,_P1,00135$
+      000379 80 3C            [24] 1037 	sjmp	00113$
+      00037B                       1038 00135$:
+                                   1039 ;	eOrgan-108321062.c:103: if(press_value == 12){ // C 放音樂
+      00037B 74 0C            [12] 1040 	mov	a,#0x0c
+      00037D B5*04 37         [24] 1041 	cjne	a,_press_value,00113$
+                                   1042 ;	eOrgan-108321062.c:104: time_counter += 1;
+      000380 E5*0A            [12] 1043 	mov	a,_time_counter
+      000382 FF               [12] 1044 	mov	r7,a
+      000383 04               [12] 1045 	inc	a
+      000384 F5*0A            [12] 1046 	mov	_time_counter,a
+                                   1047 ;	eOrgan-108321062.c:106: if(tempo_counter > 3){
+      000386 E5*0B            [12] 1048 	mov	a,_tempo_counter
+      000388 24 FC            [12] 1049 	add	a,#0xff - 0x03
+      00038A 50 05            [24] 1050 	jnc	00102$
+                                   1051 ;	eOrgan-108321062.c:107: fix = 10;
+      00038C 75*05 0A         [24] 1052 	mov	_fix,#0x0a
+      00038F 80 03            [24] 1053 	sjmp	00103$
+      000391                       1054 00102$:
+                                   1055 ;	eOrgan-108321062.c:109: fix = 100;
+      000391 75*05 64         [24] 1056 	mov	_fix,#0x64
+      000394                       1057 00103$:
+                                   1058 ;	eOrgan-108321062.c:111: if (time_counter >= fix){ // 為下次單音撥放做準備
+      000394 C3               [12] 1059 	clr	c
+      000395 E5*0A            [12] 1060 	mov	a,_time_counter
+      000397 95*05            [12] 1061 	subb	a,_fix
+      000399 40 16            [24] 1062 	jc	00108$
+                                   1063 ;	eOrgan-108321062.c:112: time_counter = 0;
+      00039B 75*0A 00         [24] 1064 	mov	_time_counter,#0x00
+                                   1065 ;	eOrgan-108321062.c:113: time ++;
+      00039E 05*07            [12] 1066 	inc	_time
+                                   1067 ;	eOrgan-108321062.c:115: if (time >= sizeof(record_tone) / sizeof(unsigned char) || record_tone[time] == 0){
+      0003A0 74 E2            [12] 1068 	mov	a,#0x100 - 0x1e
+      0003A2 25*07            [12] 1069 	add	a,_time
+      0003A4 40 08            [24] 1070 	jc	00104$
+      0003A6 E5*07            [12] 1071 	mov	a,_time
+      0003A8 24r1D            [12] 1072 	add	a,#_record_tone
+      0003AA F9               [12] 1073 	mov	r1,a
+      0003AB E7               [12] 1074 	mov	a,@r1
+      0003AC 70 03            [24] 1075 	jnz	00108$
+      0003AE                       1076 00104$:
+                                   1077 ;	eOrgan-108321062.c:116: time = 0;
+      0003AE 75*07 00         [24] 1078 	mov	_time,#0x00
+      0003B1                       1079 00108$:
+                                   1080 ;	eOrgan-108321062.c:119: TL1 = TIMER_TEMPO & 0xff;
+      0003B1 75 8B EF         [24] 1081 	mov	_TL1,#0xef
+                                   1082 ;	eOrgan-108321062.c:120: TH1 = TIMER_TEMPO >> 8;
+      0003B4 75 8D D8         [24] 1083 	mov	_TH1,#0xd8
+      0003B7                       1084 00113$:
+                                   1085 ;	eOrgan-108321062.c:123: }
+      0003B7 D0 D0            [24] 1086 	pop	psw
+      0003B9 D0 E0            [24] 1087 	pop	acc
+      0003BB 32               [24] 1088 	reti
+                                   1089 ;	eliminated unneeded push/pop dpl
+                                   1090 ;	eliminated unneeded push/pop dph
+                                   1091 ;	eliminated unneeded push/pop b
+                                   1092 ;------------------------------------------------------------
+                                   1093 ;Allocation info for local variables in function 'main'
+                                   1094 ;------------------------------------------------------------
+                                   1095 ;i                         Allocated to registers r7 
+                                   1096 ;------------------------------------------------------------
+                                   1097 ;	eOrgan-108321062.c:125: void main() 
+                                   1098 ;	-----------------------------------------
+                                   1099 ;	 function main
+                                   1100 ;	-----------------------------------------
+      0003BC                       1101 _main:
+                           000007  1102 	ar7 = 0x07
+                           000006  1103 	ar6 = 0x06
+                           000005  1104 	ar5 = 0x05
+                           000004  1105 	ar4 = 0x04
+                           000003  1106 	ar3 = 0x03
+                           000002  1107 	ar2 = 0x02
+                           000001  1108 	ar1 = 0x01
+                           000000  1109 	ar0 = 0x00
+                                   1110 ;	eOrgan-108321062.c:127: P0 = 0xf0;                                                  // speaker and 7-display location 
+      0003BC 75 80 F0         [24] 1111 	mov	_P0,#0xf0
+                                   1112 ;	eOrgan-108321062.c:128: P1 = 0xf0;                                                  // 4*4keypad
+      0003BF 75 90 F0         [24] 1113 	mov	_P1,#0xf0
+                                   1114 ;	eOrgan-108321062.c:129: P2 = 0xff;                                                  // LED number
+      0003C2 75 A0 FF         [24] 1115 	mov	_P2,#0xff
+                                   1116 ;	eOrgan-108321062.c:131: TMOD = 0x11; 
+      0003C5 75 89 11         [24] 1117 	mov	_TMOD,#0x11
+                                   1118 ;	eOrgan-108321062.c:132: TCON = 0x50;
+      0003C8 75 88 50         [24] 1119 	mov	_TCON,#0x50
+                                   1120 ;	eOrgan-108321062.c:133: IE = 0x8a;
+      0003CB 75 A8 8A         [24] 1121 	mov	_IE,#0x8a
+                                   1122 ;	eOrgan-108321062.c:135: while (1) {
+      0003CE 7F 00            [12] 1123 	mov	r7,#0x00
+      0003D0                       1124 00134$:
+                                   1125 ;	eOrgan-108321062.c:136: num = Keypad();
+      0003D0 C0 07            [24] 1126 	push	ar7
+      0003D2 12r00r00         [24] 1127 	lcall	_Keypad
+      0003D5 85 82*03         [24] 1128 	mov	_num,dpl
+      0003D8 D0 07            [24] 1129 	pop	ar7
+                                   1130 ;	eOrgan-108321062.c:137: if (num != okey && okey == 0xff) {
+      0003DA E5*06            [12] 1131 	mov	a,_okey
+      0003DC B5*03 03         [24] 1132 	cjne	a,_num,00213$
+      0003DF 02r04rC2         [24] 1133 	ljmp	00131$
+      0003E2                       1134 00213$:
+      0003E2 74 FF            [12] 1135 	mov	a,#0xff
+      0003E4 B5*06 02         [24] 1136 	cjne	a,_okey,00214$
+      0003E7 80 03            [24] 1137 	sjmp	00215$
+      0003E9                       1138 00214$:
+      0003E9 02r04rC2         [24] 1139 	ljmp	00131$
+      0003EC                       1140 00215$:
+                                   1141 ;	eOrgan-108321062.c:138: display = num;
+      0003EC 85*03*02         [24] 1142 	mov	_display,_num
+                                   1143 ;	eOrgan-108321062.c:139: press_value = num;
+      0003EF 85*03*04         [24] 1144 	mov	_press_value,_num
+                                   1145 ;	eOrgan-108321062.c:140: record_start = 1;
+                                   1146 ;	assignBit
+      0003F2 D2*00            [12] 1147 	setb	_record_start
+                                   1148 ;	eOrgan-108321062.c:142: if(press_value == 0){ // 0 重置
+      0003F4 E5*04            [12] 1149 	mov	a,_press_value
+      0003F6 70 23            [24] 1150 	jnz	00110$
+                                   1151 ;	eOrgan-108321062.c:146: record_counter = 0;
+      0003F8 8F 06            [24] 1152 	mov	ar6,r7
+      0003FA                       1153 00137$:
+                                   1154 ;	eOrgan-108321062.c:143: for(char i; i <= sizeof(record_tone) / sizeof(unsigned char); i++){
+      0003FA EE               [12] 1155 	mov	a,r6
+      0003FB 24 E1            [12] 1156 	add	a,#0xff - 0x1e
+      0003FD 40 09            [24] 1157 	jc	00158$
+                                   1158 ;	eOrgan-108321062.c:144: record_tone[i] = 0;
+      0003FF EE               [12] 1159 	mov	a,r6
+      000400 24r1D            [12] 1160 	add	a,#_record_tone
+      000402 F8               [12] 1161 	mov	r0,a
+      000403 76 00            [12] 1162 	mov	@r0,#0x00
+                                   1163 ;	eOrgan-108321062.c:143: for(char i; i <= sizeof(record_tone) / sizeof(unsigned char); i++){
+      000405 0E               [12] 1164 	inc	r6
+      000406 80 F2            [24] 1165 	sjmp	00137$
+      000408                       1166 00158$:
+      000408 8E 07            [24] 1167 	mov	ar7,r6
+                                   1168 ;	eOrgan-108321062.c:146: record_counter = 0;
+      00040A 75*09 00         [24] 1169 	mov	_record_counter,#0x00
+                                   1170 ;	eOrgan-108321062.c:147: tempo_counter = 5;
+      00040D 75*0B 05         [24] 1171 	mov	_tempo_counter,#0x05
+                                   1172 ;	eOrgan-108321062.c:148: time_counter = 0;
+      000410 75*0A 00         [24] 1173 	mov	_time_counter,#0x00
+                                   1174 ;	eOrgan-108321062.c:149: time = 0;
+      000413 75*07 00         [24] 1175 	mov	_time,#0x00
+                                   1176 ;	eOrgan-108321062.c:150: key = 2;
+      000416 75*08 02         [24] 1177 	mov	_key,#0x02
+      000419 80 5D            [24] 1178 	sjmp	00111$
+      00041B                       1179 00110$:
+                                   1180 ;	eOrgan-108321062.c:152: else if (press_value == 8 && key > 1){ // 8 降key
+      00041B 74 08            [12] 1181 	mov	a,#0x08
+      00041D B5*04 46         [24] 1182 	cjne	a,_press_value,00106$
+      000420 E5*08            [12] 1183 	mov	a,_key
+      000422 24 FE            [12] 1184 	add	a,#0xff - 0x01
+      000424 50 40            [24] 1185 	jnc	00106$
+                                   1186 ;	eOrgan-108321062.c:153: key *= 0.5;
+      000426 85*08 82         [24] 1187 	mov	dpl,_key
+      000429 C0 07            [24] 1188 	push	ar7
+      00042B 12r00r00         [24] 1189 	lcall	___uchar2fs
+      00042E AB 82            [24] 1190 	mov	r3,dpl
+      000430 AC 83            [24] 1191 	mov	r4,dph
+      000432 AD F0            [24] 1192 	mov	r5,b
+      000434 FE               [12] 1193 	mov	r6,a
+      000435 C0 03            [24] 1194 	push	ar3
+      000437 C0 04            [24] 1195 	push	ar4
+      000439 C0 05            [24] 1196 	push	ar5
+      00043B C0 06            [24] 1197 	push	ar6
+      00043D 90 00 00         [24] 1198 	mov	dptr,#(0x00&0x00ff)
+      000440 E4               [12] 1199 	clr	a
+      000441 F5 F0            [12] 1200 	mov	b,a
+      000443 74 3F            [12] 1201 	mov	a,#0x3f
+      000445 12r00r00         [24] 1202 	lcall	___fsmul
+      000448 AB 82            [24] 1203 	mov	r3,dpl
+      00044A AC 83            [24] 1204 	mov	r4,dph
+      00044C AD F0            [24] 1205 	mov	r5,b
+      00044E FE               [12] 1206 	mov	r6,a
+      00044F E5 81            [12] 1207 	mov	a,sp
+      000451 24 FC            [12] 1208 	add	a,#0xfc
+      000453 F5 81            [12] 1209 	mov	sp,a
+      000455 8B 82            [24] 1210 	mov	dpl,r3
+      000457 8C 83            [24] 1211 	mov	dph,r4
+      000459 8D F0            [24] 1212 	mov	b,r5
+      00045B EE               [12] 1213 	mov	a,r6
+      00045C 12r00r00         [24] 1214 	lcall	___fs2uchar
+      00045F 85 82*08         [24] 1215 	mov	_key,dpl
+      000462 D0 07            [24] 1216 	pop	ar7
+      000464 80 12            [24] 1217 	sjmp	00111$
+      000466                       1218 00106$:
+                                   1219 ;	eOrgan-108321062.c:155: else if (press_value == 9 && key < 128){ // 9 升key
+      000466 74 09            [12] 1220 	mov	a,#0x09
+      000468 B5*04 0D         [24] 1221 	cjne	a,_press_value,00111$
+      00046B 74 80            [12] 1222 	mov	a,#0x100 - 0x80
+      00046D 25*08            [12] 1223 	add	a,_key
+      00046F 40 07            [24] 1224 	jc	00111$
+                                   1225 ;	eOrgan-108321062.c:156: key *= 2;
+      000471 E5*08            [12] 1226 	mov	a,_key
+      000473 FE               [12] 1227 	mov	r6,a
+      000474 25 E0            [12] 1228 	add	a,acc
+      000476 F5*08            [12] 1229 	mov	_key,a
+      000478                       1230 00111$:
+                                   1231 ;	eOrgan-108321062.c:158: if(press_value == 10 && tempo_counter > 0){ // A 減速
+      000478 74 0A            [12] 1232 	mov	a,#0x0a
+      00047A B5*04 09         [24] 1233 	cjne	a,_press_value,00113$
+      00047D E5*0B            [12] 1234 	mov	a,_tempo_counter
+      00047F 60 05            [24] 1235 	jz	00113$
+                                   1236 ;	eOrgan-108321062.c:159: tempo_counter --;
+      000481 15*0B            [12] 1237 	dec	_tempo_counter
+                                   1238 ;	eOrgan-108321062.c:160: display = tempo_counter;
+      000483 85*0B*02         [24] 1239 	mov	_display,_tempo_counter
+      000486                       1240 00113$:
+                                   1241 ;	eOrgan-108321062.c:162: if(press_value == 11 && tempo_counter < 9){ // B 加速
+      000486 74 0B            [12] 1242 	mov	a,#0x0b
+      000488 B5*04 0B         [24] 1243 	cjne	a,_press_value,00116$
+      00048B 74 F7            [12] 1244 	mov	a,#0x100 - 0x09
+      00048D 25*0B            [12] 1245 	add	a,_tempo_counter
+      00048F 40 05            [24] 1246 	jc	00116$
+                                   1247 ;	eOrgan-108321062.c:163: tempo_counter ++;
+      000491 05*0B            [12] 1248 	inc	_tempo_counter
+                                   1249 ;	eOrgan-108321062.c:164: display = tempo_counter;
+      000493 85*0B*02         [24] 1250 	mov	_display,_tempo_counter
+      000496                       1251 00116$:
+                                   1252 ;	eOrgan-108321062.c:166: if(press_value == 13){ // D 升單音
+      000496 74 0D            [12] 1253 	mov	a,#0x0d
+      000498 B5*04 11         [24] 1254 	cjne	a,_press_value,00123$
+                                   1255 ;	eOrgan-108321062.c:167: if(sharp_flat == 0 || sharp_flat == 2){ 
+      00049B E5*0C            [12] 1256 	mov	a,_sharp_flat
+      00049D 60 05            [24] 1257 	jz	00118$
+      00049F 74 02            [12] 1258 	mov	a,#0x02
+      0004A1 B5*0C 05         [24] 1259 	cjne	a,_sharp_flat,00119$
+      0004A4                       1260 00118$:
+                                   1261 ;	eOrgan-108321062.c:168: sharp_flat = 1;
+      0004A4 75*0C 01         [24] 1262 	mov	_sharp_flat,#0x01
+      0004A7 80 03            [24] 1263 	sjmp	00123$
+      0004A9                       1264 00119$:
+                                   1265 ;	eOrgan-108321062.c:170: sharp_flat = 0; // 在按一次回復無升降音
+      0004A9 75*0C 00         [24] 1266 	mov	_sharp_flat,#0x00
+      0004AC                       1267 00123$:
+                                   1268 ;	eOrgan-108321062.c:173: if(press_value == 14){ // E 降單音
+      0004AC 74 0E            [12] 1269 	mov	a,#0x0e
+      0004AE B5*04 11         [24] 1270 	cjne	a,_press_value,00131$
+                                   1271 ;	eOrgan-108321062.c:174: if(sharp_flat == 0 || sharp_flat == 1){
+      0004B1 E5*0C            [12] 1272 	mov	a,_sharp_flat
+      0004B3 60 05            [24] 1273 	jz	00124$
+      0004B5 74 01            [12] 1274 	mov	a,#0x01
+      0004B7 B5*0C 05         [24] 1275 	cjne	a,_sharp_flat,00125$
+      0004BA                       1276 00124$:
+                                   1277 ;	eOrgan-108321062.c:175: sharp_flat = 2;
+      0004BA 75*0C 02         [24] 1278 	mov	_sharp_flat,#0x02
+      0004BD 80 03            [24] 1279 	sjmp	00131$
+      0004BF                       1280 00125$:
+                                   1281 ;	eOrgan-108321062.c:177: sharp_flat = 0; // 在按一次回復無升降音
+      0004BF 75*0C 00         [24] 1282 	mov	_sharp_flat,#0x00
+      0004C2                       1283 00131$:
+                                   1284 ;	eOrgan-108321062.c:181: LED_Display(display);
+      0004C2 AC*02            [24] 1285 	mov	r4,_display
+      0004C4 7D 00            [12] 1286 	mov	r5,#0x00
+      0004C6 7E 00            [12] 1287 	mov	r6,#0x00
+      0004C8 8C 82            [24] 1288 	mov	dpl,r4
+      0004CA 8D 83            [24] 1289 	mov	dph,r5
+      0004CC 8E F0            [24] 1290 	mov	b,r6
+      0004CE C0 07            [24] 1291 	push	ar7
+      0004D0 12r00r00         [24] 1292 	lcall	_LED_Display
+      0004D3 D0 07            [24] 1293 	pop	ar7
+                                   1294 ;	eOrgan-108321062.c:182: okey = num;
+      0004D5 85*03*06         [24] 1295 	mov	_okey,_num
+                                   1296 ;	eOrgan-108321062.c:184: }
+      0004D8 02r03rD0         [24] 1297 	ljmp	00134$
+                                   1298 	.area CSEG    (CODE)
+                                   1299 	.area CONST   (CODE)
+      000000                       1300 _tempo:
+      000000 EF                    1301 	.db #0xef	; 239
+      000001 28                    1302 	.db #0x28	; 40
+      000002 40                    1303 	.db #0x40	; 64
+      000003 58                    1304 	.db #0x58	; 88	'X'
+      000004 60                    1305 	.db #0x60	; 96
+      000005 50                    1306 	.db #0x50	; 80	'P'
+      000006 40                    1307 	.db #0x40	; 64
+      000007 30                    1308 	.db #0x30	; 48	'0'
+      000008 20                    1309 	.db #0x20	; 32
+      000009 10                    1310 	.db #0x10	; 16
+                                   1311 	.area XINIT   (CODE)
+                                   1312 	.area CABS    (ABS,CODE)

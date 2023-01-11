@@ -1,0 +1,18 @@
+-muwx
+-i eOrgan-108321062.ihx
+-M
+-b HOME = 0x0000
+-b XSEG = 0x0001
+-b PSEG = 0x0001
+-b ISEG = 0x0000
+-b BSEG = 0x0000
+-k E:\sdcc\bin\..\lib\small
+-l myIO.lib
+-l mcs51
+-l libsdcc
+-l libint
+-l liblong
+-l libfloat
+eOrgan-108321062.rel
+
+-e
